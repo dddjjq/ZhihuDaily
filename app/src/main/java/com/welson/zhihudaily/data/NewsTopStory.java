@@ -1,18 +1,20 @@
 package com.welson.zhihudaily.data;
 
+import java.util.ArrayList;
+
 public class NewsTopStory {
-    private String[] images;
+    private String image;
     private int type;
     private long id;
     private String ga_prefix;
     private String title;
 
-    public String[] getImages() {
-        return images;
+    public String getImage() {
+        return image;
     }
 
-    public void setImages(String[] images) {
-        this.images = images;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public int getType() {

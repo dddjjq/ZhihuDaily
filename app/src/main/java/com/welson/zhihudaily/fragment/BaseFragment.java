@@ -24,12 +24,20 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(View view,Bundle savedInstanceState){
+        super.onViewCreated(view,savedInstanceState);
+        initView(view);
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
         initData();
     }
 
     public abstract int setLayoutId();
+
+    public abstract void initView(View view);
 
     public abstract void initData();
 }

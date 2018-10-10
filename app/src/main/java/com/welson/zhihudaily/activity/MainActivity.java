@@ -2,6 +2,8 @@ package com.welson.zhihudaily.activity;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.welson.zhihudaily.R;
+import com.welson.zhihudaily.fragment.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,12 +25,16 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ActionBarDrawerToggle drawerToggle;
 
+    private FragmentManager fragmentManager;
+    private HomeFragment homeFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
         initListener();
+        initFragment();
     }
 
     private void initView(){
@@ -50,6 +57,14 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    private void initFragment(){
+        homeFragment = new HomeFragment();
+        fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fragment_layout,homeFragment);
+        transaction.commit();
     }
 
     @Override

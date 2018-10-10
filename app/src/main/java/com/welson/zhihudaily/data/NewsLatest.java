@@ -4,15 +4,15 @@ import java.util.ArrayList;
 
 public class NewsLatest {
 
-    private long date;
+    private String date;
     private ArrayList<NewsStory> stories;
     private ArrayList<NewsTopStory> top_stories;
 
-    public long getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(long date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
