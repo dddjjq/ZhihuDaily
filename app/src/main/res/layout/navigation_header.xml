@@ -10,7 +10,7 @@
         android:orientation="horizontal"
         android:id="@+id/user_layout"
         android:gravity="center_vertical"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="40dp"
         android:layout_marginStart="10dp">
         <ImageView
             android:id="@+id/user_icon"
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:text="@string/user_name_default"
             android:layout_marginStart="10dp"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:textColor="#FFFFFF"/>
     </LinearLayout>
     <LinearLayout
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/my_collect"
                 android:textColor="#FFFFFF"
-                android:textSize="13sp"
+                android:textSize="14sp"
                 android:layout_marginStart="20dp"/>
         </LinearLayout>
         <LinearLayout
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/download_news"
                 android:textColor="#FFFFFF"
-                android:textSize="13sp"
+                android:textSize="14sp"
                 android:layout_marginStart="20dp"/>
         </LinearLayout>
     </LinearLayout>

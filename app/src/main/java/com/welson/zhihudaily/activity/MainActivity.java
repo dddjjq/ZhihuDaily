@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView(){
         toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
         mainLayout = findViewById(R.id.fragment_layout);
@@ -48,5 +50,11 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.home_toolbar_menu,menu);
+        return true;
     }
 }
