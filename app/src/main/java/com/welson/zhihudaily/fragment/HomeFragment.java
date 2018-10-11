@@ -5,10 +5,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Gravity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.RelativeLayout;
 
 import com.welson.zhihudaily.R;
 import com.welson.zhihudaily.adapter.HomeRecyclerAdapter;
@@ -19,14 +17,12 @@ import com.welson.zhihudaily.data.NewsStory;
 import com.welson.zhihudaily.data.NewsTopStory;
 import com.welson.zhihudaily.presenter.HomePresenter;
 import com.welson.zhihudaily.utils.BannerLoader;
-import com.welson.zhihudaily.utils.DateUtil;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 
 import java.util.ArrayList;
 
-import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 
 public class HomeFragment extends BaseFragment implements HomeContract.View{
 

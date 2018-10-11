@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/my_collect"
                 android:textColor="#FFFFFF"
-                android:textSize="14sp"
+                android:textSize="15sp"
                 android:layout_marginStart="20dp"/>
         </LinearLayout>
         <LinearLayout
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/download_news"
                 android:textColor="#FFFFFF"
-                android:textSize="14sp"
+                android:textSize="15sp"
                 android:layout_marginStart="20dp"/>
         </LinearLayout>
     </LinearLayout>

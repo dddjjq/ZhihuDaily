@@ -11,4 +11,9 @@
         android:icon="@drawable/home_menu_more_icon"
         android:title="@string/home_menu_more_str"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/add_to_mine"
+        android:icon="@drawable/add_menu_icon"
+        android:title=""
+        app:showAsAction="always"/>
 </menu>

@@ -24,9 +24,9 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout mainLayout;
     private Toolbar toolbar;
     private ActionBarDrawerToggle drawerToggle;
-
     private FragmentManager fragmentManager;
     private HomeFragment homeFragment;
+    private boolean isHomeFragment = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initListener(){
+        navigationView.setCheckedItem(R.id.navigation_home);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -67,9 +68,27 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    private void switchFragment(boolean isHomeFragment){
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.home_toolbar_menu,menu);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        if (isHomeFragment){
+            menu.findItem(R.id.mine_news).setVisible(true);
+            menu.findItem(R.id.home_menu_more).setVisible(true);
+            menu.findItem(R.id.add_to_mine).setVisible(false);
+        }else {
+            menu.findItem(R.id.mine_news).setVisible(false);
+            menu.findItem(R.id.home_menu_more).setVisible(false);
+            menu.findItem(R.id.add_to_mine).setVisible(true);
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 }
