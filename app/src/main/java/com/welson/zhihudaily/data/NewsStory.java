@@ -9,6 +9,7 @@ public class NewsStory {
     private long id;
     private String ga_prefix;
     private String title;
+    private String date;
 
     public ArrayList<String> getImages() {
         return images;
@@ -48,5 +49,13 @@ public class NewsStory {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

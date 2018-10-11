@@ -3,6 +3,7 @@ package com.welson.zhihudaily.presenter;
 import android.util.Log;
 
 import com.welson.zhihudaily.contract.HomeContract;
+import com.welson.zhihudaily.data.NewsBefore;
 import com.welson.zhihudaily.data.NewsLatest;
 import com.welson.zhihudaily.utils.RetrofitHelper;
 
@@ -16,6 +17,7 @@ public class HomePresenter extends AbstractPresenter implements HomeContract.Pre
     private static final String TAG = HomePresenter.class.getSimpleName();
     private HomeContract.View view;
     private NewsLatest newsLatest;
+    private NewsBefore newsBefore;
 
     public HomePresenter(HomeContract.View view){
         this.view = view;
@@ -61,6 +63,33 @@ public class HomePresenter extends AbstractPresenter implements HomeContract.Pre
                         Log.d(TAG,"onComplete");
                         view.showBannerSuccess(newsLatest);
                         view.showMainDataSuccess(newsLatest);
+                    }
+                });
+    }
+
+    public void requestDataWithDate(String dateStr){
+        RetrofitHelper.getInstance().getNewsBeforeData(dateStr)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<NewsBefore>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        addDisposable(d);
+                    }
+
+                    @Override
+                    public void onNext(NewsBefore mNewsBefore) {
+                        newsBefore = mNewsBefore;
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        view.showMoreDataSuccess(newsBefore);
                     }
                 });
     }

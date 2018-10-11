@@ -8,4 +8,6 @@
     <string name="home_title">首页</string>
     <string name="home_menu_news_str">消息</string>
     <string name="home_menu_more_str">更多选项</string>
+    <string name="home_data_item_default_str">明明所有单词我都熟，可组成一句话……这是个啥？</string>
+    <string name="home_time_default_str">今日热闻</string>
 </resources>

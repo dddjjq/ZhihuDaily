@@ -2,6 +2,7 @@ package com.welson.zhihudaily.utils;
 
 
 import com.google.gson.GsonBuilder;
+import com.welson.zhihudaily.data.NewsBefore;
 import com.welson.zhihudaily.data.NewsLatest;
 import com.welson.zhihudaily.retrofit.ApiService;
 
@@ -41,6 +42,10 @@ public class RetrofitHelper {
 
     public Observable<NewsLatest> getNewsData(){
         return apiService.getNewsData();
+    }
+
+    public Observable<NewsBefore> getNewsBeforeData(String date){
+        return apiService.getNewsBeforeData(date);
     }
 
 }
