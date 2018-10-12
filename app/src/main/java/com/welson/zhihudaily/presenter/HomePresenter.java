@@ -5,7 +5,7 @@ import android.util.Log;
 import com.welson.zhihudaily.contract.HomeContract;
 import com.welson.zhihudaily.data.NewsBefore;
 import com.welson.zhihudaily.data.NewsLatest;
-import com.welson.zhihudaily.utils.RetrofitHelper;
+import com.welson.zhihudaily.retrofit.RetrofitHelper;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;

@@ -2,6 +2,7 @@ package com.welson.zhihudaily.retrofit;
 
 import com.welson.zhihudaily.data.NewsBefore;
 import com.welson.zhihudaily.data.NewsLatest;
+import com.welson.zhihudaily.data.ThemeContent;
 import com.welson.zhihudaily.data.Themes;
 
 import io.reactivex.Observable;
@@ -18,4 +19,7 @@ public interface ApiService {
 
     @GET("themes")
     Observable<Themes> getThemeData();
+
+    @GET("theme/{id}")
+    Observable<ThemeContent> getThemeContent(@Path("id")int id);
 }

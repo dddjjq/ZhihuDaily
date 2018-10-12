@@ -2,7 +2,7 @@ package com.welson.zhihudaily.presenter;
 
 import com.welson.zhihudaily.contract.MainContract;
 import com.welson.zhihudaily.data.Themes;
-import com.welson.zhihudaily.utils.RetrofitHelper;
+import com.welson.zhihudaily.retrofit.RetrofitHelper;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;

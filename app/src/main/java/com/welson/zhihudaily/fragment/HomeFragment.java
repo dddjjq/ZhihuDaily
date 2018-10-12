@@ -6,9 +6,11 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.welson.zhihudaily.R;
+import com.welson.zhihudaily.activity.MainActivity;
 import com.welson.zhihudaily.adapter.HomeRecyclerAdapter;
 import com.welson.zhihudaily.contract.HomeContract;
 import com.welson.zhihudaily.data.NewsBefore;
@@ -17,6 +19,7 @@ import com.welson.zhihudaily.data.NewsStory;
 import com.welson.zhihudaily.data.NewsTopStory;
 import com.welson.zhihudaily.presenter.HomePresenter;
 import com.welson.zhihudaily.utils.BannerLoader;
+import com.welson.zhihudaily.utils.DateUtil;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -38,6 +41,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View{
     private ArrayList<NewsTopStory> newsTopStories;
     private HomeRecyclerAdapter adapter;
     private String currentDate = "";
+    private MainActivity activity;
 
     @Override
     public int setLayoutId() {
@@ -58,6 +62,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View{
 
     @Override
     public void initData() {
+        activity = (MainActivity)getActivity();
         bannerUrlList = new ArrayList<>();
         bannerTitleList = new ArrayList<>();
         newsStories = new ArrayList<>();
@@ -139,9 +144,16 @@ public class HomeFragment extends BaseFragment implements HomeContract.View{
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (canLoadMore()){
-                    if (dy < 0);
-                        //presenter.requestDataWithDate(DateUtil.getBeforeDayString(currentDate));
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager)homeRecycler.getLayoutManager();
+                int nowPosition = linearLayoutManager.findFirstVisibleItemPosition();
+                if (adapter.getItemViewType(nowPosition) == HomeRecyclerAdapter.TYPE_GROUP){
+                    if (nowPosition == 1){
+                        activity.toolbar.setTitle(getString(R.string.home_time_default_str));
+                    }else {
+                        activity.toolbar.setTitle(DateUtil.getCurrentStringStr(newsStories.get(nowPosition).getDate()));
+                    }
+                }else if (adapter.getItemViewType(nowPosition) == HomeRecyclerAdapter.TYPE_BANNER){
+                    activity.toolbar.setTitle(getString(R.string.home_toolbar_title));
                 }
             }
         });

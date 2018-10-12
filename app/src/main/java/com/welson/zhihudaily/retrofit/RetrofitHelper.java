@@ -1,11 +1,12 @@
-package com.welson.zhihudaily.utils;
+package com.welson.zhihudaily.retrofit;
 
 
 import com.google.gson.GsonBuilder;
 import com.welson.zhihudaily.data.NewsBefore;
 import com.welson.zhihudaily.data.NewsLatest;
+import com.welson.zhihudaily.data.ThemeContent;
 import com.welson.zhihudaily.data.Themes;
-import com.welson.zhihudaily.retrofit.ApiService;
+import com.welson.zhihudaily.utils.Constants;
 
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
@@ -51,5 +52,9 @@ public class RetrofitHelper {
 
     public Observable<Themes> getThemeData(){
         return apiService.getThemeData();
+    }
+
+    public Observable<ThemeContent> getThemeContent(int id){
+        return apiService.getThemeContent(id);
     }
 }

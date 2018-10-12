@@ -20,8 +20,8 @@ import java.util.ArrayList;
 
 public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private static final int TYPE_BANNER = 0;
-    private static final int TYPE_GROUP = 1;
+    public static final int TYPE_BANNER = 0;
+    public static final int TYPE_GROUP = 1;
     private static final int TYPE_NORMAL = 2;
     private Context context;
     private ArrayList<NewsStory> newsStories;

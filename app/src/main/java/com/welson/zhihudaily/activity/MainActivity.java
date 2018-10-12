@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private DrawerLayout drawerLayout;
     //private NavigationView navigationView;
     private FrameLayout mainLayout;
-    private Toolbar toolbar;
+    public Toolbar toolbar;
     private ActionBarDrawerToggle drawerToggle;
     private ListView navigationViewList;
     private View navigationHeaderView;
@@ -41,13 +42,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private MainPresenter presenter;
     private boolean isHomeFragment = true;
     private Themes themes;
+    private int commonId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-        initListener();
+        //initListener();
         initFragment();
         switchFragment(isHomeFragment);
     }
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private void initView(){
         toolbar = findViewById(R.id.main_toolbar);
+        toolbar.setTitle(getString(R.string.home_toolbar_title));
         setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
         //navigationView = findViewById(R.id.navigation_view);
@@ -81,6 +84,25 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 return true;
             }
         });*/
+        navigationViewList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 0)
+                    return;
+                if (i != 1){
+                    drawerLayout.closeDrawers();
+                    commonId = themes.getOthers().get(i - 2).getId();
+                    toolbar.setTitle(themes.getOthers().get(i - 2).getName());
+                    isHomeFragment = false;
+                    switchFragment(isHomeFragment);
+                }else {
+                    drawerLayout.closeDrawers();
+                    isHomeFragment = true;
+                    toolbar.setTitle(getString(R.string.home_toolbar_title));
+                    switchFragment(isHomeFragment);
+                }
+            }
+        });
     }
 
     private void initData(){
@@ -104,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             transaction.show(homeFragment);
             transaction.hide(commonFragment);
         }else {
+            commonFragment.setId(commonId);
             transaction.show(commonFragment);
             transaction.hide(homeFragment);
         }
@@ -136,6 +159,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         adapter = new NavigationListAdapter(this,themes.getOthers());
         navigationViewList.setAdapter(adapter);
         navigationViewList.addHeaderView(navigationHeaderView);
+        navigationViewList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        initListener();
         /*int group = navigationView.getMenu().getItem(0).getGroupId();
         Log.d("dingyl","group is : " + group);
         Log.d("dingyl","navigation_group is : " + R.id.navigation_group);

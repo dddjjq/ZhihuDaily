@@ -12,4 +12,6 @@
     <string name="home_time_default_str">今日热闻</string>
     <string name="home_toolbar_title">首页</string>
     <string name="navigation_menu_str_default">日常心理学</string>
+    <string name="common_header_text_default">为你发现最有趣的新鲜事，建议在WiFi下查看</string>
+    <string name="editor_title_str">主编</string>
 </resources>
