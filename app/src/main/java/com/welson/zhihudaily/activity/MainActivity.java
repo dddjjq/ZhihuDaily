@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         navigationViewList.setAdapter(adapter);
         navigationViewList.addHeaderView(navigationHeaderView);
         navigationViewList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        navigationViewList.setItemChecked(1,true);
         initListener();
         /*int group = navigationView.getMenu().getItem(0).getGroupId();
         Log.d("dingyl","group is : " + group);
