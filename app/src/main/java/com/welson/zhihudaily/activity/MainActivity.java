@@ -12,10 +12,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.welson.zhihudaily.R;
+import com.welson.zhihudaily.adapter.NavigationListAdapter;
 import com.welson.zhihudaily.contract.MainContract;
 import com.welson.zhihudaily.data.Themes;
 import com.welson.zhihudaily.fragment.CommonFragment;
@@ -25,10 +28,13 @@ import com.welson.zhihudaily.presenter.MainPresenter;
 public class MainActivity extends AppCompatActivity implements MainContract.View{
 
     private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
+    //private NavigationView navigationView;
     private FrameLayout mainLayout;
     private Toolbar toolbar;
     private ActionBarDrawerToggle drawerToggle;
+    private ListView navigationViewList;
+    private View navigationHeaderView;
+    private NavigationListAdapter adapter;
     private FragmentManager fragmentManager;
     private HomeFragment homeFragment;
     private CommonFragment commonFragment;
@@ -56,15 +62,17 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.navigation_view);
+        //navigationView = findViewById(R.id.navigation_view);
         mainLayout = findViewById(R.id.fragment_layout);
         drawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
         drawerToggle.syncState();
         drawerLayout.setDrawerListener(drawerToggle);
+        navigationViewList = findViewById(R.id.navigation_list);
+        navigationHeaderView = getLayoutInflater().inflate(R.layout.navigation_header,null,false);
     }
 
     private void initListener(){
-        navigationView.setCheckedItem(R.id.navigation_home);
+        /*navigationView.setCheckedItem(R.id.navigation_home);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -72,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 drawerLayout.closeDrawers();
                 return true;
             }
-        });
+        });*/
     }
 
     private void initData(){
@@ -125,12 +133,15 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void showThemeSuccess(Themes themes) {
         this.themes = themes;
-        int group = navigationView.getMenu().getItem(0).getGroupId();
+        adapter = new NavigationListAdapter(this,themes.getOthers());
+        navigationViewList.setAdapter(adapter);
+        navigationViewList.addHeaderView(navigationHeaderView);
+        /*int group = navigationView.getMenu().getItem(0).getGroupId();
         Log.d("dingyl","group is : " + group);
         Log.d("dingyl","navigation_group is : " + R.id.navigation_group);
         for (int i = 0;i<themes.getOthers().size();i++){
             navigationView.getMenu().add(group,themes.getOthers().get(i).getId(),i,themes.getOthers().get(i).getName());
-        }
+        }*/
     }
 
     @Override

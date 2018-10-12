@@ -5,12 +5,12 @@
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary">
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:id="@+id/user_layout"
         android:gravity="center_vertical"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="10dp">
         <ImageView
             android:id="@+id/user_icon"
@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/user_layout"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="40dp"
         android:orientation="horizontal"
         android:layout_marginBottom="15dp"
         >
@@ -58,6 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal"
+            android:gravity="center"
             android:id="@+id/download_news">
             <ImageView
                 android:layout_width="15dp"

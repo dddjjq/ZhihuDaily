@@ -70,7 +70,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return newsStories.size();
+        return newsStories.size() + 1; //注意 这里如果添加了头部 count要加1，否则最后一项不显示
     }
 
     public void setHeaderView(View headerView){
