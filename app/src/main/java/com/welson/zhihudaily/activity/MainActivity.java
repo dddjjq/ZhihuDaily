@@ -148,4 +148,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void setPresenter(MainContract.Presenter presenter) {
 
     }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        presenter.removeAllDisposable();
+    }
 }
