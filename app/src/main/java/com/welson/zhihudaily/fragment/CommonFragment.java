@@ -2,11 +2,13 @@ package com.welson.zhihudaily.fragment;
 
 import android.view.View;
 
+import com.welson.zhihudaily.R;
+
 public class CommonFragment extends BaseFragment {
 
     @Override
     public int setLayoutId() {
-        return 0;
+        return R.layout.fragment_common;
     }
 
     @Override

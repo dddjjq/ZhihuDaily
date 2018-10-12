@@ -169,7 +169,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View{
         Log.d(TAG,"visibleItemCount : " + visibleItemCount);
         Log.d(TAG,"totalItemCount : " + totalItemCount);
         Log.d(TAG,"state : " + state);*/
-        if (visibleItemCount > 0 && (lastVisibleItemPosition == totalItemCount - 1) && state == homeRecycler.SCROLL_STATE_DRAGGING){
+        if (visibleItemCount > 0 && (lastVisibleItemPosition == totalItemCount - 1) && state == homeRecycler.SCROLL_STATE_IDLE){
             return true;
         }
         return false;

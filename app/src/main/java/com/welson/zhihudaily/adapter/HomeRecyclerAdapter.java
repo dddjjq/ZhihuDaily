@@ -95,8 +95,8 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             return TYPE_GROUP;
         }else if (!newsStories.get(getRealPosition(position)).getDate()
                 .equals(newsStories.get((getRealPosition(position))-1).getDate())){
-            Log.d("dingyl","position is : " + getRealPosition(position));
-            Log.d("dingyl","newsStories.get(position) : " + newsStories.get(getRealPosition(position)).getTitle());
+            //Log.d("dingyl","position is : " + getRealPosition(position));
+            //Log.d("dingyl","newsStories.get(position) : " + newsStories.get(getRealPosition(position)).getTitle());
             return TYPE_GROUP;
         }
         return TYPE_NORMAL;

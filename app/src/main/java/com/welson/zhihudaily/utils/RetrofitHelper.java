@@ -4,6 +4,7 @@ package com.welson.zhihudaily.utils;
 import com.google.gson.GsonBuilder;
 import com.welson.zhihudaily.data.NewsBefore;
 import com.welson.zhihudaily.data.NewsLatest;
+import com.welson.zhihudaily.data.Themes;
 import com.welson.zhihudaily.retrofit.ApiService;
 
 import io.reactivex.Observable;
@@ -48,4 +49,7 @@ public class RetrofitHelper {
         return apiService.getNewsBeforeData(date);
     }
 
+    public Observable<Themes> getThemeData(){
+        return apiService.getThemeData();
+    }
 }
