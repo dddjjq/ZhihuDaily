@@ -4,15 +4,18 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
@@ -21,13 +24,19 @@ import android.widget.RelativeLayout;
 import com.welson.zhihudaily.R;
 import com.welson.zhihudaily.adapter.NavigationListAdapter;
 import com.welson.zhihudaily.contract.MainContract;
+import com.welson.zhihudaily.data.NewsStory;
+import com.welson.zhihudaily.data.ThemeContent;
+import com.welson.zhihudaily.data.ThemeData;
 import com.welson.zhihudaily.data.Themes;
 import com.welson.zhihudaily.fragment.CommonFragment;
 import com.welson.zhihudaily.fragment.HomeFragment;
 import com.welson.zhihudaily.presenter.MainPresenter;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements MainContract.View{
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     private DrawerLayout drawerLayout;
     //private NavigationView navigationView;
     private FrameLayout mainLayout;
@@ -41,23 +50,22 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private CommonFragment commonFragment;
     private MainPresenter presenter;
     private boolean isHomeFragment = true;
-    private Themes themes;
+    private ArrayList<ThemeData> themeDatas;
     private int commonId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initView();
-        //initListener();
         initFragment();
         switchFragment(isHomeFragment);
+        initView();
+        initData();
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        initData();
     }
 
     private void initView(){
@@ -91,8 +99,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                     return;
                 if (i != 1){
                     drawerLayout.closeDrawers();
-                    commonId = themes.getOthers().get(i - 2).getId();
-                    toolbar.setTitle(themes.getOthers().get(i - 2).getName());
+                    commonId = themeDatas.get(i - 2).getId();
+                    toolbar.setTitle(themeDatas.get(i - 2).getName());
                     isHomeFragment = false;
                     switchFragment(isHomeFragment);
                 }else {
@@ -108,6 +116,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private void initData(){
         presenter = new MainPresenter(this);
         presenter.requestData();
+        themeDatas = new ArrayList<>();
+        adapter = new NavigationListAdapter(this,themeDatas);
+        navigationViewList.setAdapter(adapter);
+        navigationViewList.addHeaderView(navigationHeaderView);
+        navigationViewList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        navigationViewList.setItemChecked(1,true);
     }
 
     private void initFragment(){
@@ -131,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             transaction.hide(homeFragment);
         }
         transaction.commit();
+        invalidateOptionsMenu();
     }
 
     @Override
@@ -141,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu){
+        Log.d("dingyl","onPrepareOptionsMenu");
         if (isHomeFragment){
             menu.findItem(R.id.mine_news).setVisible(true);
             menu.findItem(R.id.home_menu_more).setVisible(true);
@@ -155,12 +171,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void showThemeSuccess(Themes themes) {
-        this.themes = themes;
-        adapter = new NavigationListAdapter(this,themes.getOthers());
-        navigationViewList.setAdapter(adapter);
-        navigationViewList.addHeaderView(navigationHeaderView);
-        navigationViewList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        navigationViewList.setItemChecked(1,true);
+        themeDatas.clear();
+        themeDatas.addAll(themes.getOthers());
+        adapter.notifyDataSetChanged();
         initListener();
         /*int group = navigationView.getMenu().getItem(0).getGroupId();
         Log.d("dingyl","group is : " + group);
@@ -180,4 +193,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         super.onDestroy();
         presenter.removeAllDisposable();
     }
+
+    @Override
+    public void onBackPressed(){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else {
+            super.onBackPressed();
+        }
+    }
+
 }

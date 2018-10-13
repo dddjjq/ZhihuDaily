@@ -86,8 +86,10 @@ public class CommonFragment extends BaseFragment implements CommonContract.View{
         this.themeContent = themeContent;
         GlideUtil.loadImage(getContext(),themeContent.getImage(),headerImage);
         headerTitle.setText(themeContent.getDescription());
+        newsStories.clear();
         newsStories.addAll(themeContent.getStories());
         adapter.notifyDataSetChanged();
+        commonRecycler.scrollToPosition(0);
     }
 
     @Override
