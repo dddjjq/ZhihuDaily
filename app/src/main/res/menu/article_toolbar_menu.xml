@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/article_share"
+        android:icon="@drawable/article_menu_share"
+        android:title=""
+        app:showAsAction="always"/>
+    <item android:id="@+id/article_collect"
+        android:icon="@drawable/article_menu_collect"
+        android:title=""
+        app:showAsAction="always"/>
+    <item android:id="@+id/article_discuss"
+        app:actionProviderClass="com.welson.zhihudaily.view.DiscussActionProvider"
+        android:title=""
+        app:showAsAction="always"/>
+    <item android:id="@+id/article_zan"
+        app:actionProviderClass="com.welson.zhihudaily.view.ZanActionProvider"
+        android:title=""
+        app:showAsAction="always"/>
+</menu>

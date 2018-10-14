@@ -2,7 +2,9 @@ package com.welson.zhihudaily.retrofit;
 
 
 import com.google.gson.GsonBuilder;
+import com.welson.zhihudaily.data.Article;
 import com.welson.zhihudaily.data.NewsBefore;
+import com.welson.zhihudaily.data.NewsExtras;
 import com.welson.zhihudaily.data.NewsLatest;
 import com.welson.zhihudaily.data.ThemeContent;
 import com.welson.zhihudaily.data.Themes;
@@ -56,5 +58,13 @@ public class RetrofitHelper {
 
     public Observable<ThemeContent> getThemeContent(int id){
         return apiService.getThemeContent(id);
+    }
+
+    public Observable<Article> getArticleData(long id){
+        return apiService.getArticleData(id);
+    }
+
+    public Observable<NewsExtras> getExtrasData(long id){
+        return apiService.getExtrasData(id);
     }
 }

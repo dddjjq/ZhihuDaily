@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             transaction.hide(homeFragment);
         }
         transaction.commit();
-        invalidateOptionsMenu();
+        invalidateOptionsMenu(); //调用onPrepare menu
     }
 
     @Override

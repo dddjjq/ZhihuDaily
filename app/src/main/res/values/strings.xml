@@ -14,4 +14,7 @@
     <string name="navigation_menu_str_default">日常心理学</string>
     <string name="common_header_text_default">为你发现最有趣的新鲜事，建议在WiFi下查看</string>
     <string name="editor_title_str">主编</string>
+    <string name="article_header_title_default">- 连钱都解决不了的问题……\r\n- 用蝙蝠侠解决</string>
+    <string name="article_header_resource_default">《蝙蝠侠：侠影之谜》</string>
+    <string name="article_start_zhihu_str">查看知乎讨论</string>
 </resources>

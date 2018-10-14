@@ -1,6 +1,7 @@
 package com.welson.zhihudaily.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.welson.zhihudaily.R;
+import com.welson.zhihudaily.activity.ArticleActivity;
 import com.welson.zhihudaily.data.NewsStory;
 import com.welson.zhihudaily.utils.DateUtil;
 import com.welson.zhihudaily.utils.GlideUtil;
@@ -55,6 +57,14 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             CommonViewHolder commonViewHolder = (CommonViewHolder)viewHolder;
             commonViewHolder.homeDataText.setText(newsStories.get(realPosition).getTitle());
             GlideUtil.loadImage(context,newsStories.get(realPosition).getImages().get(0),commonViewHolder.homeDataImage);
+            commonViewHolder.homeDataCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ArticleActivity.class);
+                    intent.putExtra("articleId",newsStories.get(realPosition).getId());
+                    context.startActivity(intent);
+                }
+            });
         }
         if (getItemViewType(position) == TYPE_GROUP){
             GroupViewHolder timeViewHolder = (GroupViewHolder)viewHolder;
@@ -65,6 +75,14 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
             timeViewHolder.homeDataText.setText(newsStories.get(realPosition).getTitle());
             GlideUtil.loadImage(context,newsStories.get(realPosition).getImages().get(0),timeViewHolder.homeDataImage);
+            timeViewHolder.homeDataCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ArticleActivity.class);
+                    intent.putExtra("articleId",newsStories.get(realPosition).getId());
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
