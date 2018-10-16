@@ -1,6 +1,7 @@
 package com.welson.zhihudaily.contract;
 
 import com.welson.zhihudaily.data.Article;
+import com.welson.zhihudaily.data.ArticleZipData;
 import com.welson.zhihudaily.data.NewsExtras;
 import com.welson.zhihudaily.presenter.BasePresenter;
 import com.welson.zhihudaily.view.BaseView;
@@ -16,5 +17,6 @@ public class ArticleContract {
     public interface View extends BaseView<Presenter>{
         void showArticleSuccess(Article article);
         void showExtrasSuccess(NewsExtras extras);
+        void showZipDataSuccess(ArticleZipData articleZipData);
     }
 }

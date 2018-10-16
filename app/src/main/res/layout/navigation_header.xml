@@ -10,7 +10,7 @@
         android:orientation="horizontal"
         android:id="@+id/user_layout"
         android:gravity="center_vertical"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="10dp">
         <ImageView
             android:id="@+id/user_icon"

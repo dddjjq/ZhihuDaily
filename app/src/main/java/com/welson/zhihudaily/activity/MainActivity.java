@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu){
-        Log.d("dingyl","onPrepareOptionsMenu");
+        //Log.d("dingyl","onPrepareOptionsMenu");
         if (isHomeFragment){
             menu.findItem(R.id.mine_news).setVisible(true);
             menu.findItem(R.id.home_menu_more).setVisible(true);

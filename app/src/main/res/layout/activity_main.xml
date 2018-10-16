@@ -47,6 +47,7 @@
         android:divider="@android:color/transparent"
         android:layout_marginLeft="10dp"
         android:scrollbars="none"
+        android:background="#FFFFFF"
         />
 </android.support.v4.widget.DrawerLayout>
 

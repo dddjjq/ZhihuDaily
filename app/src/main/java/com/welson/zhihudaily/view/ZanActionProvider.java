@@ -11,7 +11,7 @@ import com.welson.zhihudaily.R;
 
 public class ZanActionProvider extends ActionProvider {
     private Context context;
-    private TextView zanCount;
+    public TextView zanCount;
 
     public ZanActionProvider(Context context) {
         super(context);

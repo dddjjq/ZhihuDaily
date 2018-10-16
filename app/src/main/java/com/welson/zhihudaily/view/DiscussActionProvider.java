@@ -34,14 +34,11 @@ public class DiscussActionProvider extends ActionProvider {
                 //TODO
             }
         });
-
         return view;
     }
 
     public void setDiscussCount(String count){
-        Log.d("dingyl","==1==");
         if (discussCount != null){
-            Log.d("dingyl","==2==");
             discussCount.setText(count);
         }
     }
