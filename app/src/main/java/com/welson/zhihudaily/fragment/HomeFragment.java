@@ -1,5 +1,6 @@
 package com.welson.zhihudaily.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.welson.zhihudaily.R;
+import com.welson.zhihudaily.activity.ArticleActivity;
 import com.welson.zhihudaily.activity.MainActivity;
 import com.welson.zhihudaily.adapter.HomeRecyclerAdapter;
 import com.welson.zhihudaily.contract.HomeContract;
@@ -23,8 +25,12 @@ import com.welson.zhihudaily.utils.DateUtil;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
+import com.youth.banner.listener.OnBannerListener;
 
+import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class HomeFragment extends BaseFragment implements HomeContract.View{
@@ -42,6 +48,8 @@ public class HomeFragment extends BaseFragment implements HomeContract.View{
     private HomeRecyclerAdapter adapter;
     private String currentDate = "";
     private MainActivity activity;
+    private ArrayList<Long> idList;
+    private HashMap<Integer,ArrayList<Long>> idMap;
 
     @Override
     public int setLayoutId() {
@@ -66,6 +74,8 @@ public class HomeFragment extends BaseFragment implements HomeContract.View{
         bannerUrlList = new ArrayList<>();
         bannerTitleList = new ArrayList<>();
         newsStories = new ArrayList<>();
+        idList = new ArrayList<>();
+        idMap = new HashMap<>();
         presenter.requestData();
         adapter = new HomeRecyclerAdapter(getContext(),newsStories);
         adapter.setHeaderView(bannerView);
@@ -169,6 +179,20 @@ public class HomeFragment extends BaseFragment implements HomeContract.View{
         homeBanner.setDelayTime(3000);
         homeBanner.setIndicatorGravity(BannerConfig.CENTER);
         homeBanner.start();
+        homeBanner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                idList.clear();
+                for(NewsTopStory nst:newsTopStories){
+                    idList.add(nst.getId());
+                }
+                idMap.clear();
+                idMap.put(position,idList);
+                Intent intent = new Intent(getContext(), ArticleActivity.class);
+                intent.putExtra("articleMapId",(Serializable) idMap);
+                startActivity(intent);
+            }
+        });
     }
 
     private boolean canLoadMore(){
@@ -185,5 +209,22 @@ public class HomeFragment extends BaseFragment implements HomeContract.View{
             return true;
         }
         return false;
+    }
+
+    /**
+    * 本来是想用反射获取currentItem的值，后面发现banner有position，
+     * 而且通过反射获取的值也有同步问题，所以不使用
+     */
+    private int getBannerItem(Object object){
+        int currentItem = 0;
+        Class clz = object.getClass();
+        try {
+            Field field = clz.getDeclaredField("currentItem");
+            field.setAccessible(true);
+            currentItem = (int)field.get(object);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return currentItem;
     }
 }

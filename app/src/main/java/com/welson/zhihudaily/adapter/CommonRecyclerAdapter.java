@@ -1,9 +1,11 @@
 package com.welson.zhihudaily.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +13,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.welson.zhihudaily.R;
+import com.welson.zhihudaily.activity.ArticleActivity;
 import com.welson.zhihudaily.data.NewsStory;
 import com.welson.zhihudaily.utils.GlideUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CommonRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -23,10 +28,14 @@ public class CommonRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_NORMAL = 1;
     private View headerView;
+    private ArrayList<Long> idList;
+    private HashMap<Integer,ArrayList<Long>> idMap;
 
     public CommonRecyclerAdapter(Context context,ArrayList<NewsStory> newsStories){
         this.context = context;
         this.newsStories = newsStories;
+        idList = new ArrayList<>();
+        idMap = new HashMap<>();
     }
 
     @NonNull
@@ -42,17 +51,31 @@ public class CommonRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        int realPosititon = getRealPosition(position);
+        idList.clear();
+        for (NewsStory ns : newsStories){
+            idList.add(ns.getId());
+        }
+        final int realPosition = getRealPosition(position);
         if (getItemViewType(position) == TYPE_HEADER){
             ViewHolder mViewHolder = (ViewHolder)viewHolder;
         }else{
             ViewHolder mViewHolder = (ViewHolder)viewHolder;
-            mViewHolder.commonItemText.setText(newsStories.get(realPosititon).getTitle());
-            if (null == newsStories.get(realPosititon).getImages()){
+            mViewHolder.commonItemText.setText(newsStories.get(realPosition).getTitle());
+            if (null == newsStories.get(realPosition).getImages()){
                 mViewHolder.commonItemImage.setVisibility(View.GONE);
             }else {
-                GlideUtil.loadImage(context,newsStories.get(realPosititon).getImages().get(0),mViewHolder.commonItemImage);
+                GlideUtil.loadImage(context,newsStories.get(realPosition).getImages().get(0),mViewHolder.commonItemImage);
             }
+            mViewHolder.commonItemCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    idMap.clear();
+                    idMap.put(realPosition,idList);
+                    Intent intent = new Intent(context, ArticleActivity.class);
+                    intent.putExtra("articleMapId",(Serializable) idMap);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 

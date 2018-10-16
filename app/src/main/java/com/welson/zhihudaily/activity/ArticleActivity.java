@@ -2,6 +2,7 @@ package com.welson.zhihudaily.activity;
 
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -12,26 +13,37 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 
 import com.welson.zhihudaily.R;
+import com.welson.zhihudaily.adapter.ArticlePagerAdapter;
 import com.welson.zhihudaily.contract.ArticleContract;
 import com.welson.zhihudaily.data.Article;
 import com.welson.zhihudaily.data.ArticleZipData;
 import com.welson.zhihudaily.data.NewsExtras;
+import com.welson.zhihudaily.fragment.ArticleFragment;
 import com.welson.zhihudaily.presenter.ArticlePresenter;
 import com.welson.zhihudaily.utils.HtmlUtils;
 import com.welson.zhihudaily.view.DiscussActionProvider;
 import com.welson.zhihudaily.view.ZanActionProvider;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class ArticleActivity extends AppCompatActivity implements ArticleContract.View{
 
+    private static final String TAG = "ArticleActivity-TAG";
     private Toolbar toolbar;
-    private WebView articleContent;
+    private ViewPager viewPager;
     private ArticlePresenter presenter;
-    private long id;
+    private long currentId;
+    private int currentPosition;
     private DiscussActionProvider discussActionProvider;
     private ZanActionProvider zanActionProvider;
     private int discussCount = 0;
     private int zanCount = 0;
-    
+    private ArrayList<Long> idList;
+    private HashMap<Integer,ArrayList<Long>> idMap;
+    private ArrayList<ArticleFragment> fragmentArrayList;
+    private ArticlePagerAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +58,7 @@ public class ArticleActivity extends AppCompatActivity implements ArticleContrac
     }
 
     private void initView(){
-        articleContent = findViewById(R.id.article_content);
+        viewPager = findViewById(R.id.article_viewpager);
         toolbar = findViewById(R.id.article_toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -55,16 +67,34 @@ public class ArticleActivity extends AppCompatActivity implements ArticleContrac
     }
 
     private void initData(){
-        id = getIntent().getLongExtra("articleId",0);
-        presenter = new ArticlePresenter(this);
+        fragmentArrayList = new ArrayList<>();
+        idMap = (HashMap) getIntent().getSerializableExtra("articleMapId");
+        for (int key : idMap.keySet()){
+            currentPosition = key;
+            break;
+        }
+        Log.d(TAG,"currentPosition is : " + currentPosition);
+        idList = idMap.get(currentPosition);
+        for (int i = 0 ;i< idList.size();i++){
+            ArticleFragment fragment = new ArticleFragment();
+            Bundle bundle = new Bundle();
+            bundle.putLong("articleId",idList.get(i));
+            fragment.setArguments(bundle);
+            fragmentArrayList.add(fragment);
+        }
+        Log.d(TAG,"idList.size() : " + idList.size());
+        adapter = new ArticlePagerAdapter(getSupportFragmentManager(),fragmentArrayList);
+        viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(currentPosition);
+        /*presenter = new ArticlePresenter(this);
         presenter.requestArticleData(id);
-        //presenter.requestExtraData(id);
+        presenter.requestExtraData(id);*/
     }
 
     @Override
     public void showArticleSuccess(Article article) {
-        articleContent.loadDataWithBaseURL("file:///android_asset/", HtmlUtils.structHtml(article),
-                "text/html", "UTF-8", null);
+        /*articleContent.loadDataWithBaseURL("file:///android_asset/", HtmlUtils.structHtml(article),
+                "text/html", "UTF-8", null);*/
     }
 
     @Override
@@ -76,11 +106,11 @@ public class ArticleActivity extends AppCompatActivity implements ArticleContrac
 
     @Override
     public void showZipDataSuccess(ArticleZipData articleZipData) {
-        articleContent.loadDataWithBaseURL("file:///android_asset/", HtmlUtils.structHtml(articleZipData.getArticle()),
+        /*articleContent.loadDataWithBaseURL("file:///android_asset/", HtmlUtils.structHtml(articleZipData.getArticle()),
                 "text/html", "UTF-8", null);
         discussCount = articleZipData.getExtras().getComments();
         zanCount = articleZipData.getExtras().getPopularity();
-        invalidateOptionsMenu();
+        invalidateOptionsMenu();*/
     }
 
     @Override
@@ -100,7 +130,7 @@ public class ArticleActivity extends AppCompatActivity implements ArticleContrac
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.d("dingyl","onCreateOptionsMenu");
+        //Log.d("dingyl","onCreateOptionsMenu");
         getMenuInflater().inflate(R.menu.article_toolbar_menu, menu);
         MenuItem item1 = menu.findItem(R.id.article_discuss);
         MenuItem item2 = menu.findItem(R.id.article_zan);
@@ -109,34 +139,41 @@ public class ArticleActivity extends AppCompatActivity implements ArticleContrac
         return super.onCreateOptionsMenu(menu);
     }
 
-
-    /*@Override
-    public boolean onPrepareOptionsMenu(Menu menu){
-        Log.d("dingyl","onPrepareOptionsMenu");
-        if (discussCount > 0 && discussActionProvider.discussCount != null){
-            Log.d("dingyl","==2==");
-            discussActionProvider.setDiscussCount(discussCount+"");
-        }
-        if (zanCount > 0 && zanActionProvider.zanCount != null){
-            zanActionProvider.setZanCount(zanCount+"");
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }*/
-
     @Override
     public void onWindowFocusChanged(boolean hasFocus){
         super.onWindowFocusChanged(hasFocus);
-        Log.d("dingyl","onWindowFocusChanged");
+        //Log.d("dingyl","onWindowFocusChanged");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (discussCount > 0 && discussActionProvider.discussCount != null){
-                    discussActionProvider.setDiscussCount(discussCount+"");
+                    discussActionProvider.setDiscussCount(getDiscussString(discussCount));
                 }
                 if (zanCount > 0 && zanActionProvider.zanCount != null){
-                    zanActionProvider.setZanCount(zanCount+"");
+                    zanActionProvider.setZanCount(getZanString(zanCount));
                 }
             }
-        },800);
+        },0);
+    }
+
+    public void setMenuCount(int discussCount,int zanCount){
+        this.discussCount = discussCount;
+        this.zanCount = zanCount;
+    }
+
+    private String getZanString(int zanCount){
+        if (zanCount < 1000){
+            return zanCount + "";
+        }else {
+            return String.format("%.1f",zanCount*1.0/1000)+"k";
+        }
+    }
+
+    private String getDiscussString(int discussCount){
+        if (discussCount < 1000){
+            return discussCount + "";
+        }else {
+            return String.format("%.1f",discussCount*1.0/1000)+"k";
+        }
     }
 }

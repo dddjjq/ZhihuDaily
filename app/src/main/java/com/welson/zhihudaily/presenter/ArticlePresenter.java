@@ -1,5 +1,7 @@
 package com.welson.zhihudaily.presenter;
 
+import android.util.Log;
+
 import com.welson.zhihudaily.contract.ArticleContract;
 import com.welson.zhihudaily.data.Article;
 import com.welson.zhihudaily.data.ArticleZipData;
@@ -15,6 +17,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ArticlePresenter extends AbstractPresenter implements ArticleContract.Presenter{
 
+    private static final String TAG = ArticlePresenter.class.getSimpleName();
     private ArticleContract.View view;
     private Article article;
     private NewsExtras newsExtras;
@@ -57,6 +60,8 @@ public class ArticlePresenter extends AbstractPresenter implements ArticleContra
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
+                        Log.d(TAG,"onError");
+                        Log.d(TAG,e.getMessage()+"");
                     }
 
                     @Override
@@ -81,6 +86,7 @@ public class ArticlePresenter extends AbstractPresenter implements ArticleContra
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
+                        Log.d(TAG,"onError 1");
                     }
 
                     @Override
@@ -116,6 +122,7 @@ public class ArticlePresenter extends AbstractPresenter implements ArticleContra
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
+                        Log.d(TAG,"onError 2");
                     }
 
                     @Override

@@ -10,7 +10,7 @@ public class Article {
     private ArrayList<Recommender> recommenders;
     private String share_url;
     private Object[] js;
-    private ArrayList<Theme> theme;
+    private Theme theme;
     private String ga_prefix;
     private ArrayList<String> images;
     private int type;
@@ -73,11 +73,11 @@ public class Article {
         this.js = js;
     }
 
-    public ArrayList<Theme> getTheme() {
+    public Theme getTheme() {
         return theme;
     }
 
-    public void setTheme(ArrayList<Theme> theme) {
+    public void setTheme(Theme theme) {
         this.theme = theme;
     }
 

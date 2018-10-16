@@ -18,7 +18,9 @@ import com.welson.zhihudaily.data.NewsStory;
 import com.welson.zhihudaily.utils.DateUtil;
 import com.welson.zhihudaily.utils.GlideUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
@@ -28,10 +30,14 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Context context;
     private ArrayList<NewsStory> newsStories;
     private View headerView;
+    private ArrayList<Long> idList;
+    private HashMap<Integer,ArrayList<Long>> idMap;
 
     public HomeRecyclerAdapter(Context context, ArrayList<NewsStory> newsStories){
         this.context = context;
         this.newsStories = newsStories;
+        idList = new ArrayList<>();
+        idMap = new HashMap<>();
     }
 
     @NonNull
@@ -49,6 +55,10 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        idList.clear();
+        for (NewsStory ns : newsStories){
+            idList.add(ns.getId());
+        }
         if (getItemViewType(position) == TYPE_BANNER){
             return;
         }
@@ -60,8 +70,10 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             commonViewHolder.homeDataCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    idMap.clear();
+                    idMap.put(realPosition,idList);
                     Intent intent = new Intent(context, ArticleActivity.class);
-                    intent.putExtra("articleId",newsStories.get(realPosition).getId());
+                    intent.putExtra("articleMapId",(Serializable) idMap);
                     context.startActivity(intent);
                 }
             });
@@ -78,8 +90,13 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             timeViewHolder.homeDataCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    idMap.clear();
+                    idMap.put(realPosition,idList);
+                    for (int key:idMap.keySet()){
+                        Log.d("dingyl","adapter key : " + key);
+                    }
                     Intent intent = new Intent(context, ArticleActivity.class);
-                    intent.putExtra("articleId",newsStories.get(realPosition).getId());
+                    intent.putExtra("articleMapId",(Serializable) idMap);
                     context.startActivity(intent);
                 }
             });
