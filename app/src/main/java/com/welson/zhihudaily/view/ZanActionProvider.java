@@ -38,6 +38,6 @@ public class ZanActionProvider extends ActionProvider {
 
     public void setZanCount(String count){
         zanCount.setText(count);
-
     }
+
 }

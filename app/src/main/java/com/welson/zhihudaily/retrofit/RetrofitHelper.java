@@ -3,6 +3,8 @@ package com.welson.zhihudaily.retrofit;
 
 import com.google.gson.GsonBuilder;
 import com.welson.zhihudaily.data.Article;
+import com.welson.zhihudaily.data.CommentData;
+import com.welson.zhihudaily.data.CommentDataBean;
 import com.welson.zhihudaily.data.NewsBefore;
 import com.welson.zhihudaily.data.NewsExtras;
 import com.welson.zhihudaily.data.NewsLatest;
@@ -66,5 +68,13 @@ public class RetrofitHelper {
 
     public Observable<NewsExtras> getExtrasData(long id){
         return apiService.getExtrasData(id);
+    }
+
+    public Observable<CommentData> getLongCommentData(long id){
+        return apiService.getLongCommentData(id);
+    }
+
+    public Observable<CommentData> getShortCommentData(long id){
+        return apiService.getShortCommentData(id);
     }
 }

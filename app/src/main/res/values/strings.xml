@@ -17,4 +17,8 @@
     <string name="article_header_title_default">- 连钱都解决不了的问题……\r\n- 用蝙蝠侠解决</string>
     <string name="article_header_resource_default">《蝙蝠侠：侠影之谜》</string>
     <string name="article_start_zhihu_str">查看知乎讨论</string>
+    <string name="comment_author_name_default">YES有意思设计</string>
+    <string name="comment_content">AI像苹果，CROWDRAW像安卓！\n虽然学Ai那是04年的事（那时还没有苹果手机）；那时感觉全世界都在用CROWDRAW。\nAI有种固执的坚持，比如分页功能、剪切图片功能、图层功能、绝不雷同CROWDRAW，好特别！\n毕竟是PS一个公司出的！好牛掰！\n但我的确是半天就搞懂了它；熟练用了十几天吧！\n如果你用MAC打开来的过程就感觉AI就是有感觉！\n虽然现在一年打开不了几次，但每次打开却像是印在了脑子里，那么熟悉</string>
+    <string name="long_comment_str">条长评</string>
+    <string name="short_comment_str">条短评</string>
 </resources>

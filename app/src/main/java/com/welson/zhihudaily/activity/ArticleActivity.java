@@ -1,5 +1,6 @@
 package com.welson.zhihudaily.activity;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -27,7 +28,7 @@ import com.welson.zhihudaily.view.ZanActionProvider;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ArticleActivity extends AppCompatActivity implements ArticleContract.View{
+public class ArticleActivity extends AppCompatActivity implements ArticleContract.View,DiscussActionProvider.CommentClickListener{
 
     private static final String TAG = "ArticleActivity-TAG";
     private Toolbar toolbar;
@@ -43,6 +44,8 @@ public class ArticleActivity extends AppCompatActivity implements ArticleContrac
     private HashMap<Integer,ArrayList<Long>> idMap;
     private ArrayList<ArticleFragment> fragmentArrayList;
     private ArticlePagerAdapter adapter;
+    private int longCommentSize;
+    private int shortCommentSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +78,11 @@ public class ArticleActivity extends AppCompatActivity implements ArticleContrac
         }
         Log.d(TAG,"currentPosition is : " + currentPosition);
         idList = idMap.get(currentPosition);
+        currentId = idList.get(currentPosition);
         for (int i = 0 ;i< idList.size();i++){
             ArticleFragment fragment = new ArticleFragment();
             Bundle bundle = new Bundle();
+            bundle.putSerializable("articleMap",idMap);
             bundle.putLong("articleId",idList.get(i));
             fragment.setArguments(bundle);
             fragmentArrayList.add(fragment);
@@ -86,6 +91,24 @@ public class ArticleActivity extends AppCompatActivity implements ArticleContrac
         adapter = new ArticlePagerAdapter(getSupportFragmentManager(),fragmentArrayList);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(currentPosition);
+        viewPager.setOffscreenPageLimit(0);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                Log.d("dingyl","onPageSelected : " + i);
+                ((ArticleFragment)adapter.getItem(i)).requestExtraData();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
         /*presenter = new ArticlePresenter(this);
         presenter.requestArticleData(id);
         presenter.requestExtraData(id);*/
@@ -136,6 +159,7 @@ public class ArticleActivity extends AppCompatActivity implements ArticleContrac
         MenuItem item2 = menu.findItem(R.id.article_zan);
         discussActionProvider = (DiscussActionProvider) MenuItemCompat.getActionProvider(item1);
         zanActionProvider = (ZanActionProvider) MenuItemCompat.getActionProvider(item2);
+        discussActionProvider.setCommentListener(this);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -156,9 +180,11 @@ public class ArticleActivity extends AppCompatActivity implements ArticleContrac
         },0);
     }
 
-    public void setMenuCount(int discussCount,int zanCount){
+    public void setMenuCount(int discussCount,int zanCount,int longCommentSize,int shortCommentSize){
         this.discussCount = discussCount;
         this.zanCount = zanCount;
+        this.longCommentSize = longCommentSize;
+        this.shortCommentSize = shortCommentSize;
     }
 
     private String getZanString(int zanCount){
@@ -175,5 +201,14 @@ public class ArticleActivity extends AppCompatActivity implements ArticleContrac
         }else {
             return String.format("%.1f",discussCount*1.0/1000)+"k";
         }
+    }
+
+    @Override
+    public void onCommentClick() {
+        Intent intent = new Intent(this,CommentActivity.class);
+        intent.putExtra("commentId",currentId);
+        intent.putExtra("longCommentSize",longCommentSize);
+        intent.putExtra("shortCommentSize",shortCommentSize);
+        startActivity(intent);
     }
 }

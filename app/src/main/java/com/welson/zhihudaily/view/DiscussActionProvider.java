@@ -14,6 +14,7 @@ public class DiscussActionProvider extends ActionProvider {
 
     private Context context;
     public TextView discussCount;
+    private CommentClickListener listener;
 
     public DiscussActionProvider(Context context) {
         super(context);
@@ -31,7 +32,7 @@ public class DiscussActionProvider extends ActionProvider {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO
+                listener.onCommentClick();
             }
         });
         return view;
@@ -41,5 +42,13 @@ public class DiscussActionProvider extends ActionProvider {
         if (discussCount != null){
             discussCount.setText(count);
         }
+    }
+
+    public void setCommentListener(CommentClickListener listener){
+        this.listener = listener;
+    }
+
+    public interface CommentClickListener{
+        void onCommentClick();
     }
 }

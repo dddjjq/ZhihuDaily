@@ -19,10 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ArticleActivity"
-            android:launchMode="singleTask">
-
-        </activity>
+        <activity
+            android:name=".activity.ArticleActivity"
+            android:launchMode="singleTask"></activity>
+        <activity android:name=".activity.CommentActivity"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/comment_item"
+    android:layout_margin="10dp">
+
+    <ImageView
+        android:id="@+id/author_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/comment_author_icon"/>
+
+    <RelativeLayout
+        android:id="@+id/comment_top"
+        android:layout_toRightOf="@id/author_icon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/author_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:text="@string/comment_author_name_default"
+            android:textSize="16sp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentEnd="true">
+            <ImageView
+                android:id="@+id/zan_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/comment_zan_icon"/>
+            <TextView
+                android:id="@+id/zan_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10"
+                android:textSize="14sp"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <TextView
+        android:layout_alignLeft="@id/comment_top"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/comment_content_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/comment_top"
+        android:text="@string/comment_content"
+        android:textColor="#302c2c"
+        android:textSize="15sp"/>
+    <RelativeLayout
+        android:id="@+id/comment_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/comment_content_text"
+        android:layout_alignLeft="@id/comment_content_text">
+        <TextView
+            android:id="@+id/publish_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10-09 02:03"
+            android:textSize="12sp"/>
+    </RelativeLayout>
+</RelativeLayout>

@@ -35,7 +35,7 @@ public class ArticlePresenter extends AbstractPresenter implements ArticleContra
 
     @Override
     public void requestArticleData(long id) {
-        Observable.zip(RetrofitHelper.getInstance().getArticleData(id), RetrofitHelper.getInstance().getExtrasData(id),
+        /*Observable.zip(RetrofitHelper.getInstance().getArticleData(id), RetrofitHelper.getInstance().getExtrasData(id),
                 new BiFunction<Article, NewsExtras, ArticleZipData>() {
                     @Override
                     public ArticleZipData apply(Article article,NewsExtras extras){
@@ -66,10 +66,11 @@ public class ArticlePresenter extends AbstractPresenter implements ArticleContra
 
                     @Override
                     public void onComplete() {
+                        Log.d(TAG,"onComplete");
                         view.showZipDataSuccess(articleZipData);
                     }
-                });
-        /*RetrofitHelper.getInstance().getArticleData(id)
+                });*/
+        RetrofitHelper.getInstance().getArticleData(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Article>() {
@@ -93,7 +94,7 @@ public class ArticlePresenter extends AbstractPresenter implements ArticleContra
                     public void onComplete() {
                         view.showArticleSuccess(article);
                     }
-                });*/
+                });
     }
 
     @Override
