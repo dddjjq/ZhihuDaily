@@ -3,6 +3,7 @@ package com.welson.zhihudaily.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.welson.zhihudaily.R;
 import com.welson.zhihudaily.activity.CommentActivity;
 import com.welson.zhihudaily.data.CommentData;
 import com.welson.zhihudaily.data.CommentDataBean;
+import com.welson.zhihudaily.utils.DateUtil;
 import com.welson.zhihudaily.utils.GlideUtil;
 
 import java.util.ArrayList;
@@ -80,7 +82,7 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 GlideUtil.loadImage(context,longComments.get(realPosition1).getAvatar(),normalViewHolder1.authorIcon);
                 normalViewHolder1.zanCount.setText(longComments.get(realPosition1).getLikes()+"");
                 normalViewHolder1.contentText.setText(longComments.get(realPosition1).getContent());
-                normalViewHolder1.time.setText(longComments.get(realPosition1).getTime()+"");
+                normalViewHolder1.time.setText(DateUtil.getCommentTime(longComments.get(realPosition1).getTime()));
                 break;
             case TYPE_NORMAL2:
                 final int realPosition2 = getRealPosition(position,TYPE_NORMAL2);
@@ -89,7 +91,7 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 GlideUtil.loadImage(context,shortComments.get(realPosition2).getAvatar(),normalViewHolder2.authorIcon);
                 normalViewHolder2.zanCount.setText(shortComments.get(realPosition2).getLikes()+"");
                 normalViewHolder2.contentText.setText(shortComments.get(realPosition2).getContent());
-                normalViewHolder2.time.setText(shortComments.get(realPosition2).getTime()+"");
+                normalViewHolder2.time.setText(DateUtil.getCommentTime(shortComments.get(realPosition2).getTime()));
                 break;
         }
     }

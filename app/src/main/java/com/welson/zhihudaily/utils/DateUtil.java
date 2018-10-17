@@ -52,4 +52,11 @@ public class DateUtil {
         }
         return null;
     }
+
+    public static String getCommentTime(long time){
+        String dateTime; SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd HH:mm");
+        dateTime = simpleDateFormat.format(new Date(time * 1000L));
+        return dateTime;
+
+    }
 }
