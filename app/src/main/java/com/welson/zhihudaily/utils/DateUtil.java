@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class DateUtil {
+public class DateUtil{
 
     private static final String TAG = DateUtil.class.getSimpleName();
     private static final String[] weeks = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五","星期六"};

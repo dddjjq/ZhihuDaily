@@ -1,5 +1,6 @@
 package com.welson.zhihudaily.activity;
 
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,7 +23,7 @@ import com.welson.zhihudaily.presenter.CommentPresenter;
 
 import java.util.ArrayList;
 
-public class CommentActivity extends AppCompatActivity implements CommentContract.View{
+public class CommentActivity extends AppCompatActivity implements CommentContract.View,CommentRecyclerAdapter.HeaderClickListener{
 
     private RecyclerView commentRecycler;
     private Toolbar toolbar;
@@ -62,13 +63,14 @@ public class CommentActivity extends AppCompatActivity implements CommentContrac
         builder = new AlertDialog.Builder(this);
         builder.setMessage("努力加载中...");
         dialog = builder.create();
-        adapter = new CommentRecyclerAdapter(this,longComments,shortComments,longCommentSize,shortCommentSize,id);
+        adapter = new CommentRecyclerAdapter(this,longComments,shortComments,longCommentSize,shortCommentSize,this);
         commentRecycler.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         commentRecycler.setLayoutManager(layoutManager);
         commentRecycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         presenter = new CommentPresenter(this);
         presenter.requestLongCommentData(id);
+        //presenter.requestShortCommentData(id);
     }
 
     @Override
@@ -82,7 +84,7 @@ public class CommentActivity extends AppCompatActivity implements CommentContrac
         shortComments.clear();
         shortComments.addAll(commentData.getComments());
         adapter.notifyDataSetChanged();
-        showDialog(false);
+        //showDialog(false);
     }
 
     @Override
@@ -115,6 +117,21 @@ public class CommentActivity extends AppCompatActivity implements CommentContrac
             if (dialog != null){
                 dialog.dismiss();
             }
+        }
+    }
+
+    @Override
+    public void onHeadClick(boolean b) {
+        if (b){
+            presenter.requestShortCommentData(id);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    commentRecycler.scrollToPosition(2);
+                }
+            },2000);
+        }else {
+            commentRecycler.smoothScrollToPosition(0);
         }
     }
 }

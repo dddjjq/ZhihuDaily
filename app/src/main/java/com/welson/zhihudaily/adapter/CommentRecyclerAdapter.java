@@ -3,17 +3,15 @@ package com.welson.zhihudaily.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.welson.zhihudaily.R;
-import com.welson.zhihudaily.activity.CommentActivity;
-import com.welson.zhihudaily.data.CommentData;
 import com.welson.zhihudaily.data.CommentDataBean;
 import com.welson.zhihudaily.utils.DateUtil;
 import com.welson.zhihudaily.utils.GlideUtil;
@@ -31,23 +29,23 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private ArrayList<CommentDataBean> shortComments;
     private int longCommentSize;
     private int shortCommentSize;
-    private long id;
-
+    private boolean showShortComments = true;
+    private HeaderClickListener headerClickListener;
     public CommentRecyclerAdapter(Context context,ArrayList<CommentDataBean> longComments,
                                   ArrayList<CommentDataBean> shortComments,int longCommentSize
-                                    ,int shortCommentSize,long id){
+                                    ,int shortCommentSize,HeaderClickListener headerClickListener){
         this.context = context;
         this.longComments = longComments;
         this.shortComments = shortComments;
         this.longCommentSize = longCommentSize;
         this.shortCommentSize = shortCommentSize;
-        this.id = id;
+        this.headerClickListener = headerClickListener;
     }
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
-        if (getItemViewType(position) == TYPE_HEAD1 || getItemViewType(position) == TYPE_HEAD2){
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        if (viewType == TYPE_HEAD1 || viewType == TYPE_HEAD2){
             View view = LayoutInflater.from(context).inflate(R.layout.comment_header_layout,viewGroup,false);
             return new HeaderViewHolder(view);
         }else{
@@ -64,14 +62,24 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 headerViewHolder1.commentHeader.setText(longCommentSize + context.getString(R.string.long_comment_str));
                 break;
             case TYPE_HEAD2:
-                HeaderViewHolder headerViewHolder2 = (HeaderViewHolder)viewHolder;
+                final HeaderViewHolder headerViewHolder2 = (HeaderViewHolder)viewHolder;
                 headerViewHolder2.commentHeader.setText(shortCommentSize + context.getString(R.string.short_comment_str));
+                headerViewHolder2.commentHeaderIcon.setVisibility(View.VISIBLE);
                 headerViewHolder2.commentLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        CommentActivity activity = (CommentActivity)context;
+                        /*CommentActivity activity = (CommentActivity)context;
                         activity.presenter.requestShortCommentData(id);
-                        activity.showDialog(true);
+                        activity.showDialog(true);*/
+                        if (showShortComments){
+                            headerViewHolder2.commentHeaderIcon.setBackgroundResource(R.drawable.short_comment_header1);
+                        }else {
+                            shortComments.clear();
+                            headerViewHolder2.commentHeaderIcon.setBackgroundResource(R.drawable.short_comment_header2);
+                        }
+                        headerClickListener.onHeadClick(showShortComments);
+                        showShortComments = !showShortComments;
+                        notifyDataSetChanged();
                     }
                 });
                 break;
@@ -87,11 +95,16 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             case TYPE_NORMAL2:
                 final int realPosition2 = getRealPosition(position,TYPE_NORMAL2);
                 NormalViewHolder normalViewHolder2 = (NormalViewHolder)viewHolder;
-                normalViewHolder2.authorName.setText(shortComments.get(realPosition2).getAuthor());
-                GlideUtil.loadImage(context,shortComments.get(realPosition2).getAvatar(),normalViewHolder2.authorIcon);
-                normalViewHolder2.zanCount.setText(shortComments.get(realPosition2).getLikes()+"");
-                normalViewHolder2.contentText.setText(shortComments.get(realPosition2).getContent());
-                normalViewHolder2.time.setText(DateUtil.getCommentTime(shortComments.get(realPosition2).getTime()));
+                //if (showShortComments){
+                    normalViewHolder2.commentItem.setVisibility(View.VISIBLE);
+                    normalViewHolder2.authorName.setText(shortComments.get(realPosition2).getAuthor());
+                    GlideUtil.loadImage(context,shortComments.get(realPosition2).getAvatar(),normalViewHolder2.authorIcon);
+                    normalViewHolder2.zanCount.setText(shortComments.get(realPosition2).getLikes()+"");
+                    normalViewHolder2.contentText.setText(shortComments.get(realPosition2).getContent());
+                    normalViewHolder2.time.setText(DateUtil.getCommentTime(shortComments.get(realPosition2).getTime()));
+                /*}else {
+                    normalViewHolder2.commentItem.setVisibility(View.GONE);
+                }*/
                 break;
         }
     }
@@ -126,25 +139,33 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         TextView commentHeader;
         RelativeLayout commentLayout;
+        ImageButton commentHeaderIcon;
 
         public HeaderViewHolder(@NonNull View itemView) {
             super(itemView);
             commentHeader = itemView.findViewById(R.id.comment_header_text);
             commentLayout = itemView.findViewById(R.id.comment_header);
+            commentHeaderIcon = itemView.findViewById(R.id.comment_header_icon);
         }
     }
 
     class NormalViewHolder extends RecyclerView.ViewHolder{
         ImageView authorIcon;
         TextView authorName,zanCount,contentText,time;
+        RelativeLayout commentItem;
 
         public NormalViewHolder(@NonNull View itemView) {
             super(itemView);
+            commentItem = itemView.findViewById(R.id.comment_item);
             authorIcon = itemView.findViewById(R.id.author_icon);
             authorName = itemView.findViewById(R.id.author_name);
             zanCount = itemView.findViewById(R.id.zan_count);
             contentText = itemView.findViewById(R.id.comment_content_text);
             time = itemView.findViewById(R.id.publish_time);
         }
+    }
+
+    public interface HeaderClickListener{
+        void onHeadClick(boolean b);
     }
 }
